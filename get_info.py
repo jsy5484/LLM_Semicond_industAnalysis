@@ -2,6 +2,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
+
 # Step 1: Obtain CIK information from a ticker 
 def get_cik(ticker):
     url = 'https://www.sec.gov/files/company_tickers.json'
