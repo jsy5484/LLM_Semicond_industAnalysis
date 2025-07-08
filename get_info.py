@@ -1,6 +1,6 @@
 import requests
-from bs4 import BeautifulSoup
 import re
+from bs4 import BeautifulSoup
 
 # Step 1: Obtain CIK information from a ticker 
 def get_cik(ticker):
@@ -40,22 +40,24 @@ def get_10k_html_url(cik, filing_info):
 # Step 4: Extract 10-k in a big chunk of text and clean
 def extract_items_from_10k(html_url):
     res = requests.get(html_url, headers={'User-Agent': 'Shawn Jeong (shawn.jeongg@gmail.com)'})
-    #print(res.content)
+    # Parse with BeautifulSoup
     soup = BeautifulSoup(res.content, 'html.parser')
-    
+
+    # Clean unnessary noises from the parsed html
     for tag in soup.find_all(style=lambda s: s and 'display:none' in s):
         tag.decompose()
-    
+
     for tag in soup(['script', 'style', 'ix:header', 'ix:nonnumeric', 'ix:nonfraction']):
         tag.decompose()
 
     
     text = soup.get_text(separator=' ')
-    
     cleaned_text = re.sub(r'\s+', ' ', text).strip()
     
     return cleaned_text
-    
+
+# In 10-k, there is a table of content at the beginning so first occurence capturing won't work.
+# Function below allows us to capture from the second occurrence.
 def extract_section(text, start_pattern, end_pattern, start_index=1):
     start_matches = list(re.finditer(start_pattern, text, re.IGNORECASE))
     end_matches = list(re.finditer(end_pattern, text, re.IGNORECASE))
@@ -76,21 +78,19 @@ def extract_10k_items(cleaned_text):
     item1 = extract_section(cleaned_text,
                             r'Item\s+1\.*\s+Business',
                             r'Item\s+1A\.*\s+Risk\s+Factors')
-
     item1a = extract_section(cleaned_text,
                              r'Item\s+1A\.*\s+Risk\s+Factors',
                              r'Item\s+1B\.*')
-
     item7 = extract_section(cleaned_text,
                             r'Item\s+7\.*\s+Management[’\'`]?[sS]\s+Discussion.*?Operations',
                             r'Item\s+7A\.*')
-
     return {
         'Item 1': item1.strip() if item1 else "Not found",
         'Item 1A': item1a.strip() if item1a else "Not found",
         'Item 7': item7.strip() if item7 else "Not found"
     }
 
+# Main() function
 def main():
     ticker = 'AVGO'  # Example - Broadcom
     cik = get_cik(ticker)
@@ -103,6 +103,6 @@ def main():
     print("\n\nItem 1A (Risk Factors)\n", info_st['Item 1A'][:1000], "\n...")
     print("\n\nItem 7 (MD&A)\n", info_st['Item 7'][:1000], "\n...")
 
-# Main
+# Execution
 if __name__ == '__main__':
     main()
