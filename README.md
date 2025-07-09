@@ -23,6 +23,7 @@ Risk disclosures in SEC filings provide rich textual data reflecting these chall
 ### Data 
 - Input JSON files contain parsed Item 1A (Risk Factors) and Item 7 (MD&A) sections from EDGAR API
 - Outputs include yearly sentiment scores, topic distributions, and regression results
+- List of companies in the dataset: **Nvidia, Broadcom, AMD, Qualcomm, Intel, Micron, Microchip Technology, Texas Industry**
 
 ### Application
 - Identification of semiconductor-specific risk themes such as supply chain, trade regulations, technology shifts, and market volatility
