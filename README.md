@@ -3,8 +3,8 @@
 ### Author: Shawn Jeong / Manuscript in progress
 
 ### Project Overview
-This project focuses on analyzing risk disclosures within the 10-K and 10-Q filings of semiconductor companies submitted to the U.S. SEC.
-Using advanced natural language processing techniques—including sentiment analysis and topic modeling—we extract key risk themes and their evolution over time.
+This project focuses on analyzing risk disclosures ㅑㅜ the 10-K and 10-Q filings of semiconductor companies submitted to the U.S. SEC.
+Using natural language processing techniques - sentiment analysis and topic modeling — we extract key risk themes and their evolution over time.
 The ultimate goal is to quantitatively link these textual risk factors to financial performance metrics such as ROA, ROE, EPS, and stock returns through regression modeling.
 
 The semiconductor sector faces diverse and dynamic risk factors including supply chain disruptions, geopolitical tensions, regulatory changes, and rapid technological innovation.
